@@ -1,0 +1,22 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1522204621680.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "3880356779",
+    "id" : "4C71B667",
+    "lastKnownWriteTime" : 1521685100,
+    "last_content_update" : 1521685100,
+    "path" : "E:/R_project/222/map/ui.R",
+    "project_path" : "map/ui.R",
+    "properties" : {
+        "cursorPosition" : "5,0",
+        "scrollLine" : "0"
+    },
+    "relative_order" : 2,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

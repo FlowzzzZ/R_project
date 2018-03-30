@@ -1,0 +1,10 @@
+attach(mtcars)
+opar <- par(no.readonly = TRUE)
+par(mfrow=c(2,2))
+plot(wt,mpg,main = "img1")
+plot(wt,main = "img2")
+hist(wt,main="img3")
+
+boxplot(wt,main="img4")
+par(opar)
+detach(mtcars)

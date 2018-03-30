@@ -1,0 +1,22 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1522217424072.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "3569034835",
+    "id" : "CBD14B53",
+    "lastKnownWriteTime" : 1522322092,
+    "last_content_update" : 1522322092379,
+    "path" : "E:/R_project/shinydashboard/Script.R",
+    "project_path" : null,
+    "properties" : {
+        "cursorPosition" : "25,0",
+        "scrollLine" : "0"
+    },
+    "relative_order" : 3,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

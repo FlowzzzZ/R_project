@@ -1,0 +1,13 @@
+############水文处理相关R包#####################
+install.packages("hyfo")
+library(zoo)
+library(shiny)
+
+help(rnorm)
+??hyfo
+###zoo##
+###随机正态生成5个数，以日期顺序进行排序###
+x.Date <- as.Date("2003-02-01") + c(1, 3, 7, 9, 14) - 1
+x <- zoo(rnorm(20), x.Date)
+plot(x)
+time(x)

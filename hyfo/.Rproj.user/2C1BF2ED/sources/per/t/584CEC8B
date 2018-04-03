@@ -1,0 +1,23 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1522717609613.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "4120677157",
+    "id" : "584CEC8B",
+    "lastKnownWriteTime" : 1522760495,
+    "last_content_update" : 1522760495924,
+    "path" : "E:/R_project/hyfo/EcoHydRology.R",
+    "project_path" : "EcoHydRology.R",
+    "properties" : {
+        "cursorPosition" : "4,23",
+        "scrollLine" : "0",
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 1,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

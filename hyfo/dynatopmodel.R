@@ -1,4 +1,5 @@
 install.packages("dynatopmodel")
+## Implementation of the Dynamic TOPMODEL Hydrological Model
 library(dynatopmodel)
 library(deSolve)
 library(zoo)
@@ -13,7 +14,7 @@ library(stats)
 library(utils)
 library(tools)
 library(help = "tools")
-help(tools)
+help(dynatopmodel)
 # deSolve, maptools, rgdal, rgeos, zoo, xts, sp, raster,
 # lubridate, topmodel, methods, grDevices, stats, utils,
 # graphics, tools
@@ -60,21 +61,31 @@ help(tools)
 ###topmodel
 ###topmodel模型，是半分布式水文模型。
 
-###methods
+###（系统）methods
 ###面向S3的函数或者类的列表
 
 
-###grDevices
+###（系统）grDevices
 ###绘图包
 
-###stats
+###（系统）stats
 ###统计包
 
-###utils
-###用于java连接和使用R语言的工作集
+###（系统）utils
+###公用功能集合
 
-###graphics
+###（系统）graphics
 ###绘图包
 
-###tools
+###（系统）tools
 ###R包开发
+par <- get.disp.par(graphics.show=TRUE,
+                    graphics.interval=6)
+par
+
+data("brompton")
+
+# Generate time series at hourly and 15 minute intervals
+pe.60 <- approx.pe.ts("2012-01-01", "2012-12-31", dt=1)
+
+pe.15 <- approx.pe.ts("2012-01-01", "2012-12-31", dt=0.25)

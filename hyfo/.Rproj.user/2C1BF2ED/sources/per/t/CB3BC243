@@ -1,0 +1,23 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1523260078845.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "2861072564",
+    "id" : "CB3BC243",
+    "lastKnownWriteTime" : 1523276121,
+    "last_content_update" : 1523276121708,
+    "path" : "E:/R_project/hyfo/lfstat.R",
+    "project_path" : "lfstat.R",
+    "properties" : {
+        "cursorPosition" : "78,0",
+        "scrollLine" : "50",
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 1,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

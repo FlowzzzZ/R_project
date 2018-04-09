@@ -1,0 +1,23 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1523277473588.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "3592429637",
+    "id" : "C913FD15",
+    "lastKnownWriteTime" : 1523259542,
+    "last_content_update" : 1523259542,
+    "path" : "E:/R_project/hyfo/waterData.R",
+    "project_path" : "waterData.R",
+    "properties" : {
+        "cursorPosition" : "12,4",
+        "scrollLine" : "4",
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 7,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

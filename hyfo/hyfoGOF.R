@@ -77,4 +77,106 @@ points(obs, col="blue", cex=0.6, type="o")
 
 ## End(Not run)
 
+obs <- 1:10
+sim <- 1:10
+mae(sim, obs)
 
+obs <- 1:10
+sim <- 2:11
+mae(sim, obs)
+
+##################
+# Loading daily streamflows of the Ega River (Spain), from 1961 to 1970
+data(EgaEnEstellaQts)
+obs <- EgaEnEstellaQts
+
+# Generating a simulated daily time series, initially equal to the observed series
+sim <- obs 
+
+# Computing the mean absolute error for the "best" case
+mae(sim=sim, obs=obs)
+
+# Randomly changing the first 2000 elements of 'sim', by using a normal distribution 
+# with mean 10 and standard deviation equal to 1 (default of 'rnorm').
+sim[1:2000] <- obs[1:2000] + rnorm(2000, mean=10)
+
+# Computing the new mean absolute error
+mae(sim=sim, obs=obs)
+
+
+
+sim[1:2000] <- obs[1:2000] + rnorm(2000, mean=10)
+
+# Computing the new mean error
+me(sim=sim, obs=obs)
+
+
+data(EgaEnEstellaQts)
+obs <- EgaEnEstellaQts
+
+# Generating a simulated daily time series, initially equal to the observed series
+sim <- obs 
+
+# Computing the mean squared error for the "best" case
+mse(sim=sim, obs=obs)
+
+# Randomly changing the first 2000 elements of 'sim', by using a normal distribution 
+# with mean 10 and standard deviation equal to 1 (default of 'rnorm').
+sim[1:2000] <- obs[1:2000] + rnorm(2000, mean=10)
+
+# Computing the new mean squared error
+mse(sim=sim, obs=obs)
+
+
+# Loading daily streamflows of the Ega River (Spain), from 1961 to 1970
+data(EgaEnEstellaQts)
+obs <- EgaEnEstellaQts
+
+# Generating a simulated daily time series, initially equal to the observed series
+sim <- obs 
+
+# Computing the normalized root mean squared error for the "best" (unattainable) case
+nrmse(sim=sim, obs=obs)
+
+# Randomly changing the first 2000 elements of 'sim', by using a normal distribution
+# with mean 10 and standard deviation equal to 1 (default of 'rnorm').
+sim[1:2000] <- obs[1:2000] + rnorm(2000, mean=10)
+
+# Computing the new normalized root mean squared error
+nrmse(sim=sim, obs=obs)
+
+
+# Loading daily streamflows of the Ega River (Spain), from 1961 to 1970
+
+data(EgaEnEstellaQts)
+obs <- EgaEnEstellaQts
+
+# Generating a simulated daily time series, initially equal to the observed series
+sim <- obs 
+
+# Computing the root mean squared error for the "best" (unattainable) case
+rmse(sim=sim, obs=obs)
+
+# Randomly changing the first 2000 elements of 'sim', by using a normal distribution 
+# with mean 10 and standard deviation equal to 1 (default of 'rnorm').
+sim[1:2000] <- obs[1:2000] + rnorm(2000, mean=10)
+
+# Computing the new root mean squared error
+rmse(sim=sim, obs=obs)
+
+
+data(EgaEnEstellaQts)
+obs <- EgaEnEstellaQts
+
+# Generating a simulated daily time series, initially equal to the observed series
+sim <- obs 
+
+# Computing the linear correlation for the "best" case
+rPearson(sim=sim, obs=obs)
+
+# Randomly changing the first 2000 elements of 'sim', by using a normal distribution 
+# with mean 10 and standard deviation equal to 1 (default of 'rnorm').
+sim[1:2000] <- obs[1:2000] + rnorm(2000, mean=10)
+
+# Computing the new correlation value
+rPearson(sim=sim, obs=obs)

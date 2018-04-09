@@ -1,0 +1,23 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1523277193869.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "776671261",
+    "id" : "6C233746",
+    "lastKnownWriteTime" : 1523280472,
+    "last_content_update" : 1523280472486,
+    "path" : "E:/R_project/hyfo/hydroTSM.R",
+    "project_path" : "hydroTSM.R",
+    "properties" : {
+        "cursorPosition" : "494,0",
+        "scrollLine" : "470",
+        "tempName" : "Untitled2"
+    },
+    "relative_order" : 6,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

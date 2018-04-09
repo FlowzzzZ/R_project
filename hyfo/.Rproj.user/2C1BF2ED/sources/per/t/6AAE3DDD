@@ -1,0 +1,29 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1523269555532.000,
+    "dirty" : false,
+    "encoding" : "",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "6AAE3DDD",
+    "lastKnownWriteTime" : 2909734795897088372,
+    "last_content_update" : 1523269555532,
+    "path" : null,
+    "project_path" : null,
+    "properties" : {
+        "cacheKey" : "8CC7352F",
+        "caption" : "ngaruroro",
+        "contentUrl" : "grid_resource/gridviewer.html?env=&obj=ngaruroro&cache_key=8CC7352F",
+        "displayedObservations" : 13618,
+        "environment" : "",
+        "object" : "ngaruroro",
+        "preview" : 0,
+        "totalObservations" : 13618,
+        "variables" : 6
+    },
+    "relative_order" : 2,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_dataframe"
+}

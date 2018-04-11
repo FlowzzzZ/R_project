@@ -34,7 +34,7 @@ shinyServer(function(input, output) {
     }else{
       temp1 <- getcoord(input$Start)
       temp2 <- getcoord(input$End)
-      if(temp1$status==0&temp2$status==0){
+      if(temp1$status==0&temp2$status==0){  
         output$Request <- renderText({
           c('地点错误')
         })

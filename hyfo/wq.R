@@ -114,7 +114,7 @@ plotTsTile(chl27, legend.title = 'Chl log-anomaly')
 
 c27 <- sfbayChla[, 's27']
 seaKen(tsSub(c27))  # Aug and Dec missing the most key data
-seaKen(tsSub(c27, seas = c(1:7, 9:11)))
+seaKen(tsSub(c27, seas = c(1:6, 9:11)))
 
 y <- decompTs(sfbayChla[, 's27'])
 y
@@ -125,3 +125,37 @@ chl27 <- sfbayChla[, 's27']
 plotSeason(chl27, num.era = c(1978, 1988, 1998, 2008), ylab = 'Stn 27 Chl-a')
 plotSeason(chl27, num.era = 3, same.plot = FALSE, ylab = 'Stn 27 Chl-a')
 plotSeason(chl27, "by.month", ylab = 'Stn 27 Chl-a')
+
+
+
+leapYear(seq(1500, 2000, 100))
+
+chl27 <- sfbayChla[, 's27']
+monthCor(chl27)
+
+y <- mts2ts(sfbayChla, seas = 2:4)
+plot(y, type = 'n')
+abline(v = 1978:2010, col = 'lightgrey')
+lines(y, type = 'h')
+
+# data from Pettitt (1979, Table 1):
+y <- c(-1.05, 0.96, 1.22, 0.58, -0.98, -0.03, -1.54, -0.71, -0.35, 0.66, 0.44,
+       0.91, -0.02, -1.42, 1.26, -1.02, -0.81, 1.66, 1.05, 0.97, 2.14, 1.22, -0.24,
+       1.60, 0.72, -0.12, 0.44, 0.03, 0.66, 0.56, 1.37, 1.66, 0.10, 0.80, 1.29, 0.49,
+       -0.07, 1.18, 3.29, 1.84)
+pett(y) # K=232, p=0.0146, change-point=17, the same results as Pettitt
+
+tsp(chl27)
+chl27 <- round(chl27, 1)
+ts2df(chl27, mon1 = 10, addYr = TRUE)
+ts2df(chl27, mon1 = 10, addYr = TRUE, omit = TRUE)
+
+
+
+# Create new WqData object
+sfb <- wqData(sfbay, c(1, 3:4), 5:12, site.order = TRUE,
+              time.format = "%m/%d/%Y", type = "wide")
+
+# Find means in the 0-10 m layer
+y <- tsMake(sfb, focus = 's27', layer = c(0, 10))
+plot(y, main = 'Station 27')

@@ -79,3 +79,25 @@ rain1991 <- subset(ngaruroro, subset = hyear == 1991 && peak, select = c(day, mo
 x <- c(-2, 3)
 curve(sin, -2*pi, 2*pi, xname = "t")
 trace_value(x, sin(x), digits = c(0, 1))
+
+
+data(ray)
+ray <- as.xts(ray)
+
+# calculate baseflow and plot it
+ray$baseflow <- baseflow(ray$discharge)
+ray96 <- ray[format(time(ray), "%Y") == "1996", ]
+plot(ray96$discharge, type = "l")
+lines(ray96$baseflow, col = 2)
+
+# aggregated base flows for river Ray
+# these are mean flow totals per day, not per year as written
+# in Tallaksen and van Lanen (2004)
+round(colSums(ray96[, c("discharge", "baseflow")]), 2)
+
+
+data(ngaruroro)
+BFI(ngaruroro)
+BFI(ngaruroro, breakdays = c("01/11","01/05"))
+BFI(ngaruroro, year = 1991)
+bfplot(ngaruroro, year = 1991)

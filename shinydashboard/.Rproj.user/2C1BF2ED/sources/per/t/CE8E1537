@@ -7,13 +7,13 @@
     "folds" : "",
     "hash" : "421773566",
     "id" : "CE8E1537",
-    "lastKnownWriteTime" : 1521865094,
-    "last_content_update" : 1521865094,
+    "lastKnownWriteTime" : 1523259542,
+    "last_content_update" : 1523259542,
     "path" : "E:/R_project/shinydashboard/test1/server.R",
     "project_path" : "test1/server.R",
     "properties" : {
-        "cursorPosition" : "77,19",
-        "scrollLine" : "0"
+        "cursorPosition" : "80,2",
+        "scrollLine" : "64"
     },
     "relative_order" : 2,
     "source_on_save" : false,

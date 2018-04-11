@@ -34,3 +34,12 @@ summaryStats(pH05082500, staid="05082500")
 
 staInfo <- siteInfo("05054000")
 staInfo
+
+
+data(exampleWaterData)
+my.newdata <- fillMiss(misQ05054000, block=30, pmiss=50, log="y")
+summary(misQ05054000)
+summary(my.newdata)
+
+q05054000 <- importDVs("05054000", sdate="2000-01-01", edate="2010-12-31")
+head(q05054000)

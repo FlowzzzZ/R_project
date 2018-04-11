@@ -87,5 +87,18 @@ data("brompton")
 
 # Generate time series at hourly and 15 minute intervals
 pe.60 <- approx.pe.ts("2012-01-01", "2012-12-31", dt=1)
+pe.60 
 
 pe.15 <- approx.pe.ts("2012-01-01", "2012-12-31", dt=0.25)
+
+
+
+require(dynatopmodel)
+data("brompton")
+
+obs <- aggregate_obs(list("rain"=brompton$rain, "pe"=brompton$pe), dt=15/60)
+View(rain)
+
+data("brompton")
+
+rain <- aggregate_xts(brompton$rain, dt=15/60)

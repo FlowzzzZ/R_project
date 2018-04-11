@@ -1,7 +1,7 @@
 install.packages("hydroTSM")
 library(xts)
-library(hydroTSM)
 
+library(hydroTSM)
 
 
 
@@ -498,5 +498,30 @@ plot(m, xlab="Time")
 
 ## Plotting the annual moving average in station 'x'
 lines(ma(m, win.len=12), col="blue")
+rep(1:4, 2)
+help(rep)
+obs <- c(1, NA, 3, 4, NA, 5)
+sim <- rep(2, 6)
+
+## Filling in the missing values in 'x' with the corresponding values in 'sim'
+infillxy(x=obs, sim)
 
 
+data(EbroPPtsMonthly)
+smry(EbroPPtsMonthly[,2:8])
+
+
+diy(1961, out.type = "nmbr")
+
+
+## Loading the DAILY precipitation data at SanMartino
+data(SanMartinoPPts)
+x <- SanMartinoPPts
+
+## Winter (DJF) values of precipitation for each year of 'x'
+dm2seasonal(x, FUN=sum, season="DJF")
+
+
+data(OcaEnOnaQts)
+d <- OcaEnOnaQts
+sfreq(d)

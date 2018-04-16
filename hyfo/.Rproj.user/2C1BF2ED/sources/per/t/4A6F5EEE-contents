@@ -1,0 +1,46 @@
+install.packages("funtimes ")
+help(format.Date)
+help(t)
+library(RODBC)
+library(hydroTSM)
+library(data.table)
+library(ggplot2)
+channel=odbcConnect("zhchdata", uid="root", pwd="1234")
+minMaxDate=sqlQuery(channel,"SELECT min(tm) as min_date, max(tm) as max_date FROM zhch.test_w")
+View(minMaxDate)
+
+
+
+
+seq.Date(
+  as.Date(minMaxDate$min_date) + 1,
+  as.Date(minMaxDate$max_date),
+  by = "months"
+)
+
+
+
+mip(as.Date(minMaxDate$min_date)+1,as.Date(minMaxDate$max_date))
+
+paste0(1:12)
+
+abc=sqlQuery(
+  channel,
+  "select avg(rz) as data ,DATE_FORMAT(test_w.tm,'%e') as days from test_w where DATE_FORMAT(test_w.tm,'%Y-%m')='2015-01' 
+  and stcd='12910540' group by days"
+)
+
+View(abc)
+
+
+ll = list(1:5)
+transpose(ll)
+
+p <- ggplot(mtcars, aes(wt, mpg))
+p + geom_point()
+
+aes(x = mpg, y = wt)
+aes(mpg, wt)
+
+
+ggplot(economics, aes(date, unemploy)) + geom_line(linetype = 2)

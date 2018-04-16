@@ -1,0 +1,23 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1523517934990.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "835471705",
+    "id" : "CC8AE419",
+    "lastKnownWriteTime" : 1523885649,
+    "last_content_update" : 1523885649617,
+    "path" : "E:/R_project/hyfo/mix.R",
+    "project_path" : "mix.R",
+    "properties" : {
+        "cursorPosition" : "184,0",
+        "scrollLine" : "166",
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 1,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

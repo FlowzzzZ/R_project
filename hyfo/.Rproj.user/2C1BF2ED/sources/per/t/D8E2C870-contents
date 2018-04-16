@@ -1,0 +1,304 @@
+
+
+# 水文数据查询系统
+# server.R
+# by：李宇航 1206010235 河海大学
+
+library(shiny)
+library(RODBC)
+library(ggplot2)
+library(reshape2)
+library(data.table)
+
+channel = odbcConnect("zhchdata", uid = "root", pwd = "1234") #读取数据库
+
+getMonthData = function(site, month) {
+  return(sqlQuery(
+    channel,
+    paste0(
+      "select avg(rz) as data,DATE_FORMAT(test_w.tm,'%e') as days from test_w where DATE_FORMAT(test_w.tm,'%Y-%m')='",
+      month,
+      "' and stcd='",
+      site,
+      "' group by days"
+    )
+  ))
+}  #读取月份信息，用于月水位折线图
+
+getDayData = function(site, day) {
+  return(sqlQuery(
+    channel,
+    paste0(
+      "select avg(rz) as data1,DATE_FORMAT(test_w.tm,'%H') as hours from test_w where DATE_FORMAT(test_w.tm,'%Y-%m-%d')='",
+      day,
+      "' and stcd='",
+      site,
+      "' group by hours"
+    )
+  ))
+}  #读取某日信息，用于日水位折线图
+
+getRegionData = function(site, day_s, day_e) {
+  return(sqlQuery(
+    channel,
+    paste0(
+      "select avg(rz) as data,DATE_FORMAT(test_w.tm,'%Y-%m-%d') as days from test_w where DATE_FORMAT(test_w.tm,'%Y-%m-%d') between '",
+      day_s,
+      "' and '",
+      day_e,
+      "' and stcd='",
+      site,
+      "' group by days"
+    )
+  ))
+}  #读取某段时间信息，用于任意时间水位和水位预测
+
+getShWZData = function(site) {
+  return(sqlQuery(
+    channel,
+    paste0(
+      "select pos_jidu, pos_weidu, formal_area, river_flow, avg_flow, timeofb, total, dispatch, utili_c, solid_c, check_level, design_level, h_level, limit_level, die_level from reservior where stcd='",
+      site,
+      "'"
+    )
+  ))
+}#读取水文站基础数据
+
+
+
+
+shinyServer(function(input, output) {
+  
+  #显示某月水位数据折线图
+  output$monthly <- renderPlot({
+    thisMonth = getMonthData(input$Name_shw, input$datemonth1)#本月数据
+    
+    data = thisMonth[order(thisMonth["days"]), ]#数据排序
+    
+    max_avg = max(data$data)#本月水位最大值，坐标系y轴最大值
+    min_avg = min(data$data)#本月水位最小值，坐标系y轴最小值
+
+    #判断和显示上一个月和下一个月的水位
+    if ("yesterday" %in% input$domainShow) {
+      #取上个月的月份
+      beforeMonthDate = (format.Date(as.Date(paste0(
+        input$datemonth1, "-01"
+      )) - 20, "%Y-%m"))
+      #取上一个月的数据
+      beforeMonth = getMonthData(input$Name_shw, beforeMonthDate)
+      
+      #合并两个月的数据
+      if (length(beforeMonth$days) > 0) {
+        data = merge(
+          data,
+          beforeMonth,
+          by = "days",
+          all.x = TRUE,
+          all.y = TRUE,
+          suffixes = c("", "_上月")
+        )
+        min_avg = min(min_avg, min(beforeMonth$data))#修正最大值
+        max_avg = max(max_avg, max(beforeMonth$data))#修正最小值
+      }
+    }
+    if ("tomorrow" %in% input$domainShow) {
+      #取下个月月份
+      afterMonthDate = (format.Date(as.Date(paste0(
+        input$datemonth1, "-01"
+      )) + 31, "%Y-%m"))
+      #取数据
+      afterMonth = getMonthData(input$Name_shw, afterMonthDate)
+      if (length(afterMonth$days) > 0) {
+        #融合数据
+        data = merge(
+          data,
+          afterMonth,
+          by = "days",
+          all.x = TRUE,
+          all.y = TRUE,
+          suffixes = c("", "_下月")
+        )
+        min_avg = min(min_avg, min(afterMonth$data))#修正最小值
+        max_avg = max(max_avg, max(afterMonth$data))#修正最大值
+      }
+    }
+    if (length(thisMonth$days) > 0) {
+      #读入无数据水文站时无图像输出
+      graphData = melt(data, id = "days")
+
+      theGraph = ggplot(graphData,
+                        aes(
+                          x = days,
+                          y = value,
+                          colour = variable,
+                          group = variable
+                        )) + geom_point(shape = 19, size = 2) + ylab("水位（米）") + xlab("日期（天）") + expand_limits(y = c(min_avg - 0.75, max_avg + 0.75))
+
+      if (input$smoother) {
+        #光滑折线
+        theGraph = theGraph + geom_smooth()
+      } else {
+        theGraph = theGraph + geom_line()
+      }
+      print(theGraph)
+    }
+  })
+
+  #显示某日水位数据折线图
+  output$dayly <- renderPlot({
+    thisDay = getDayData(input$Name_shw, input$dateday1)#本日数据
+    data = thisDay[order(thisDay["hours"]), ]#数据排序
+    max_avg = max(data$data)#本日水位最大值，坐标系y轴最大值
+    min_avg = min(data$data)#本日水位最小值，坐标系y轴最小值
+
+    if ("yesterday" %in% input$domainShow) {
+      #取前一天日期
+      beforeDayDate = input$dateday1 - 1
+      beforeDay = getDayData(input$Name_shw, beforeDayDate)
+      if (length(beforeDay$hours) > 0) {
+        data = merge(
+          data,
+          beforeDay,
+          by = "hours",
+          all.x = TRUE,
+          all.y = TRUE,
+          suffixes = c("", "_前一天")
+        )
+        min_avg = min(min_avg, min(beforeDay$data))
+        max_avg = max(max_avg, max(beforeDay$data))
+      }
+    }
+
+    if ("tomorrow" %in% input$domainShow) {
+      #取后一天日期
+      afterDayDate = input$dateday1 + 1
+      afterDay = getDayData(input$Name_shw, afterDayDate)
+      if (length(afterDay$hours) > 0) {
+        data = merge(
+          data,
+          afterDay,
+          by = "hours",
+          all.x = TRUE,
+          all.y = TRUE,
+          suffixes = c("", "_第二天")
+        )
+        min_avg = min(min_avg, min(afterDay$data))
+        max_avg = max(max_avg, max(afterDay$data))
+      }
+    }
+
+    if (length(thisDay$hours) > 0) {
+      #读入无数据水文站时无图像输出
+      graphData = melt(data, id = "hours")
+
+      theGraph = ggplot(graphData,
+                        aes(
+                          x = hours,
+                          y = value,
+                          colour = variable,
+                          group = variable
+                        )) + geom_point(shape = 19, size = 2) + ylab("水位（米）") + xlab("时间（小时）") + expand_limits(y = c(min_avg - 0.35, max_avg + 0.35))
+
+      if (input$smoother) {
+        #光滑折线
+        theGraph = theGraph + geom_smooth()
+      } else {
+        theGraph = theGraph + geom_line()
+      }
+      print(theGraph)
+    }
+
+  })
+
+  #显示段时间内水位数据折线图
+  output$regionly <- renderPlot({
+    thisRegion = getRegionData(input$Name_shw, input$dateRange[1], input$dateRange[2])#取起始和终结时间数据
+    data = thisRegion[order(thisRegion["days"]), ]#数据排序
+    max_avg = max(data$data)#区间水位最大值，坐标系y轴最大值
+    min_avg = min(data$data)#区间水位最小值，坐标系y轴最小值
+
+    if (length(thisRegion$days) > 0) {
+      #读入无数据水文站时无图像输出
+      graphData = melt(data, id = "days")
+
+      theGraph = ggplot(graphData,
+                        aes(
+                          x = days,
+                          y = value,
+                          colour = variable,
+                          group = variable
+                        )) + geom_point(shape = 19, size = 2) + ylab("水位（米）") + xlab("日期（天）") + expand_limits(y = c(min_avg - 0.75, max_avg + 0.75))
+
+      if (input$smoother) {
+        #光滑折线
+        theGraph = theGraph + geom_smooth()
+      } else {
+        theGraph = theGraph + geom_line(linetype = 2)
+      }
+      print(theGraph)
+    }
+
+  })
+
+  #显示水情预测数据
+  output$predictPlot = renderPlot({
+    predictDay = input$pre_dateday - 1#预测取值最后一天
+    beforeDay = predictDay - 8#预测取值第一天
+    thisRegion = getRegionData(input$Name_shw, beforeDay, predictDay)#取起始和终结时间数据
+    data = thisRegion[order(thisRegion["days"]), ]#数据排序
+    max_avg = max(data$data)#区间水位最大值，坐标系y轴最大值
+    min_avg = min(data$data)#区间水位最小值，坐标系y轴最小值
+
+
+    if (length(thisRegion$days) > 0) {
+      #读入无数据水文站时无图像输出
+      graphData = melt(data, id = "days")
+
+      theGraph = ggplot(graphData,
+                        aes(
+                          x = days,
+                          y = value,
+                          colour = variable,
+                          group = 1
+                        )) + geom_point(shape = 19, size = 2) + ylab("水位（米）") + xlab("日期（天）") + expand_limits(y = c(min_avg - 0.75, max_avg + 0.75))
+
+      theGraph = theGraph + geom_line(linetype = 2)
+      graphData$days = as.double(as.Date(graphData$days))
+      fit = lm(value ~ days, data = graphData)
+      # 得到3天的预测数据
+      frame = data.frame(days = c(as.double(predictDay), as.double(predictDay)+1, as.double(predictDay)+2))
+      predictVal = predict(fit, frame, interval = "confidence")
+      # 改行列名
+      colnames(predictVal) <- c( '预计值', '下限', '上限')
+      rownames(predictVal) <- format(c( as.Date(predictDay+1), as.Date(predictDay+2), as.Date(predictDay+3)), "%Y-%m-%d")
+      
+      # 输出表格
+      output$predictTable = renderTable(predictVal, caption = paste0("从", predictDay+1, "开始的三天预计水位"), digits = 4)
+      print(theGraph)
+    }
+  })
+
+  #显示水文站基础数据
+  output$basicInfoTable = renderTable({
+    
+    data <-  getShWZData(input$Name_shw)
+    
+    #转置
+    newdata<- t(data)
+    
+    nameRow <-  c("位置经度", "位置维度", "正常蓄水位水面面积-集雨面积", "干流长度", "坝址多年平均径流量-干流比降", "建成时间-始建年月", "总库容", "调洪库容",
+                       "兴利库容", "死库容", "校核洪水位", "设计洪水位", "防洪高水位-兴利水位", "防洪限制水位-汛限水位", "死水位")
+
+    newDate1<- as.data.frame(cbind(nameRow,newdata))
+    names(newDate1) <- c("测量内容","数值")
+    print(newDate1)
+    
+   
+    
+  }
+  
+
+  
+  
+  )
+})

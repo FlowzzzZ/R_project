@@ -126,6 +126,9 @@ varname <- getNcdfVar(filePath)
 nc <- loadNcdf(filePath, varname)
 
 data(tgridData)
+biasFactor <- getBiasFactor(nc, tgridData)
+
+newFrc <- biasCorrect(nc, nc, tgridData)
 # Since the example data, has some NA values, the process will include some warning #message, 
 # which can be ignored in this case.
 
@@ -135,7 +138,7 @@ data(tgridData)
 # use tgridData as observation.
 
 biasFactor <- getBiasFactor(nc, tgridData)
-
+View(biasFactor)
 data(testdl)
 
 a <- testdl[[1]]
@@ -259,3 +262,26 @@ nc <- loadNcdf(filePath, varname)
 nc1 <- downscaleNcdf(nc, year = 2006, lon = c(-2, -0.5), lat = c(43.2, 43.7))
 nc2 <- downscaleNcdf(nc, year = 2005, month = 3:8, lon = c(-2, -0.5), lat = c(43.2, 43.7))
 View(nc1)
+
+
+
+data(testdl)
+
+a <- testdl[[1]]
+
+# Choose example from "1994-2-4" to "1996-1-4"
+
+
+b1<- getHisEnsem(a, example = c('1995-2-4', '1996-1-4'), plot = 'cum', output = 'ggplot',
+                 name = 1)
+
+b2 <- getHisEnsem(a, example = c('1995-4-4', '1996-3-4'), plot = 'cum', output = 'ggplot',
+                  name = 2)
+
+getEnsem_comb(b1, b2)
+
+
+a <- testdl[[1]]
+
+# Choose example from "1994-2-4" to "1996-1-4"
+b <- getHisEnsem(a, example = c('1994-2-4', '1996-1-4'))

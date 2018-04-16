@@ -24,3 +24,5 @@ library(zoo)
 library(geotopbricks)
 f <- system.file("doc/examples/example.plot.GeotopRasterBrick.R",package="geotopbricks")
 source(f)
+
+

@@ -525,3 +525,154 @@ dm2seasonal(x, FUN=sum, season="DJF")
 data(OcaEnOnaQts)
 d <- OcaEnOnaQts
 sfreq(d)
+
+
+## Loading the SanMartino daily precipitation data (1921-1990)
+data(SanMartinoPPts)
+View(SanMartinoPPts)
+x <- SanMartinoPPts
+
+# Amount of years in 'x' (needed for computing the average)
+nyears <- length( seq(from=time(x[1]), to=time(x[length(x)]), by="years") )
+
+## Average annual precipitation for the 70 years period. 
+# It is necessary to divide by the amount of years to obtain the average annual value, 
+# otherwise it will give the total precipitation for all the 70 years.
+annualfunction(x, FUN=sum, na.rm=TRUE) / nyears
+
+
+#####################
+### verification ####
+# Daily to annual
+a <- daily2annual(x, FUN=sum, na.rm=TRUE)
+
+# Mean annual value
+mean(a)
+
+##############################
+##############################
+## Loading the monthly time series of precipitation within the Ebro River basin.
+data(EbroPPtsMonthly)
+x <- EbroPPtsMonthly
+
+## Dates of 'x'
+dates <- as.Date(x[,1])
+
+
+## Computation of the average annual precipitation
+## Not run: 
+
+## Transforming 'x' into a zoo object
+z <- zoo( x[, 2:ncol(x)], dates)
+
+# Amount of years in 'x' (needed for computing the average)
+nyears <- yip(from=start(z), to=end(z), out.type="nmbr" )
+
+## Average annual precipitation, for the first 5 stations in 'x'
+annualfunction(z[ ,1:5], FUN=sum)/nyears
+
+
+## End(Not run)
+
+
+## Loading the SanMartino precipitation data
+data(SanMartinoPPts)
+x <- window(SanMartinoPPts, end=as.Date("1930-12-31"))
+
+## Plotting the daily ts only, and then automatic 'x' axis
+plot(x, xaxt = "n", xlab="Time")
+drawTimeAxis(x) 
+
+
+
+data(SanMartinoPPts)
+x <- SanMartinoPPts
+
+## Average amount of wet days in each month (for this example, this means days 
+## with precipitation larger than 0.1mm) 
+dwdays(x, thr=0.1)
+
+
+data(OcaEnOnaQts)
+x <- OcaEnOnaQts
+xmin <- min(x, na.rm=TRUE)
+r <- diff(range(x, na.rm=TRUE))
+s <- stdx(x)
+si <- istdx(s, xmin, xrange=r)
+View(si)
+
+
+data(OcaEnOnaQts)
+x <- OcaEnOnaQts
+
+## Mean monthly streamflows at station 'x'
+monthlyfunction(x, FUN=mean, na.rm=TRUE)
+
+
+data(EbroPPtsMonthly)
+
+# Getting the name of each gauging station.
+names <- colnames(EbroPPtsMonthly)
+
+# Removing the initial letter 'P' of the name of each gauging station.
+rm1stchar(names)
+
+
+data(SanMartinoPPts)
+x <- SanMartinoPPts
+
+# Amount of years
+nyears <- yip(from=start(x), to=end(x), out.type="nmbr")
+
+## Mean annual precipitation.
+# It is necessary to divide by the amount of years to obtain the mean annual value, 
+# otherwise it will give the total precipitation for all the 70 years
+seasonalfunction(x, FUN=sum, na.rm=TRUE) / nyears
+
+
+data(EbroPPtsMonthly)
+
+## Plotting the monthly and annual values of precipitation at station "P9001", 
+## stored in 'EbroPPtsMonthly'.
+sname2plot(EbroPPtsMonthly, sname="P9001", var.type="Precipitation", dates=1, 
+           pfreq="ma")
+
+
+data(KarameaAtGorgeQts)
+x <- KarameaAtGorgeQts
+View(x)
+# Sub-daily to monthly ts
+subdaily2annual(x, FUN=mean, na.rm=TRUE)
+
+
+data(KarameaAtGorgeQts)
+x <- KarameaAtGorgeQts
+
+# Plotting the hourly streamflow values
+plot(x)
+
+## sub-daily to Daily
+d <- subdaily2daily(x, FUN=sum, na.rm=TRUE)
+
+# Plotting the daily streamflow values
+plot(d)
+
+
+# Sub-daily to monthly ts
+subdaily2monthly(x, FUN=mean, na.rm=TRUE)
+
+data(KarameaAtGorgeQts)
+x <- KarameaAtGorgeQts
+
+## Mean winter (DJF) values of streamflow for each year of 'x'
+dm2seasonal(x, FUN=mean, season="DJF")
+subdaily2seasonal(x, FUN=mean, season="DJF") # same as above
+
+t <- dip("1961-01-01", "1961-12-31")
+time2season(t)
+
+t <- mip("1961-01-01", "1961-12-31")
+time2season(t)
+time2season(t, out.fmt="seasons")
+
+yip("1961-01-01", "1961-12-31")

@@ -1,0 +1,22 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1523668476816.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "1533199717",
+    "id" : "D8E2C870",
+    "lastKnownWriteTime" : 1523674380,
+    "last_content_update" : 1523674380887,
+    "path" : "H:/河海/R设计/程序代码/server.R",
+    "project_path" : null,
+    "properties" : {
+        "cursorPosition" : "44,131",
+        "scrollLine" : "26"
+    },
+    "relative_order" : 2,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

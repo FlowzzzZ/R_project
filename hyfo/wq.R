@@ -159,3 +159,42 @@ sfb <- wqData(sfbay, c(1, 3:4), 5:12, site.order = TRUE,
 # Find means in the 0-10 m layer
 y <- tsMake(sfb, focus = 's27', layer = c(0, 10))
 plot(y, main = 'Station 27')
+
+
+x <- sfbayChla
+seasonTrend(x)
+seasonTrend(x, plot = TRUE, ncol = 4)
+
+sfb1 <- subset(sfbay, depth == 1 & stn == 32)
+dox.pct <- with(sfb1, 100 * dox/oxySol(temp, sal))
+summary(dox.pct)
+
+
+
+y <- sfbayChla
+y1 <- interpTs(y, gap=1)  # interpolate single-month gaps only
+y2 <- aggregate(y1, 1, mean, na.rm=FALSE)
+mannKen(y2)
+mannKen(y2, plot=TRUE) # missing data means missing trend estimates
+mannKen(y2, plot=TRUE, xlim = c(0.1, 0.25))
+mannKen(y2, plot=TRUE, type='relative', order = TRUE, pval = .001,
+        xlab = "Relative trend")
+legend("topleft", legend = "p < 0.001", pch = 19, bty="n")
+
+
+chl <- sfbayChla # monthly chlorophyll at 16 stations in San Francisco Bay
+seaKen(sfbayChla[, 's27']) # results for a single series at station 27
+seaKen(sfbayChla) # results for all stations
+seaKen(sfbayChla, plot=TRUE, type="relative", order=TRUE)
+chl27 <- sfbayChla[, 's27']
+seaRoll(chl27)
+seaRoll(chl27, plot = TRUE)
+
+x <- sfbayChla[, 's27']
+trendHomog(x)
+
+
+
+
+
+
